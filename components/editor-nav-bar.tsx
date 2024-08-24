@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { ChevronDown, User } from "lucide-react";
 import {
@@ -9,11 +10,11 @@ import {
 
 import React from "react";
 import Model from "./model-selection";
-import Language from "./language-selection";
 
 export default function Nav() {
+
   return (
-    <>
+    <div className="lg:mb-[5%] md:mb-[10%]">
       <div className="fixed top-0 left-0 right-0 bg-white z-10 border-b border-gray-200 pb-4">
         <div className="grid grid-cols-2 pt-6 mx-auto pl-8 pr-8">
           <div className="flex space-x-10">
@@ -25,7 +26,7 @@ export default function Nav() {
                 >
                   <div className="flex space-x-2 items-center">
                     <div className="mx-auto font-bold">File</div>
-                    <ChevronDown size={20} className="text-slate-400"/>
+                    <ChevronDown size={20} className="text-slate-400" />
                   </div>
                 </Button>
               </DropdownMenuTrigger>
@@ -35,7 +36,6 @@ export default function Nav() {
               </DropdownMenuContent>
             </DropdownMenu>
             <Model />
-            <Language />
           </div>
           <Button
             variant="outline"
@@ -45,6 +45,6 @@ export default function Nav() {
           </Button>
         </div>
       </div>
-    </>
+    </div>
   );
 }
