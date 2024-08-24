@@ -72,7 +72,7 @@ const Code = () => {
         <Button className="ml-5 mb-2">Run</Button>
       </div>
       <Editor
-        height="80vh"
+        height="78vh"
         language={language}
         value={editorValue}
         theme={theme}
