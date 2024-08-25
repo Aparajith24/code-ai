@@ -120,21 +120,21 @@ const Code = () => {
       />
       {modelOpen && (
         <Dialog open={modelOpen} onOpenChange={setModelOpen}>
-          <DialogContent className="w-[85vw] h-[90vh]">
+          <DialogContent className="lg:w-[85vw] h-[90vh] md:w-[90vw] md:overflow-y-auto">
             <DialogHeader>
               <DialogTitle>Refactor with AI</DialogTitle>
               <DialogDescription>
                 Refactor the selected code with AI
               </DialogDescription>
             </DialogHeader>
-            <div className="p-5 flex space-x-5">
-              <div>
+            <div className="p-5 lg:grid lg:grid-cols-2 lg:space-x-5">
+              <div className="mt-5">
                 <p className="text-lg font-bold">Selected Code</p>
                 <div className="max-h-[60vh] overflow-y-auto border p-2 bg-gray-100 rounded-md">
                   <pre className="text-sm">{selectedCode}</pre>
                 </div>
               </div>
-              <div>
+              <div className="mt-5">
                 <p className="text-lg font-bold">Refactored Code</p>
                 <div className="max-h-[60vh] overflow-y-auto border p-2 bg-gray-100 rounded-md">
                   <pre className="text-sm">{selectedCode}</pre>

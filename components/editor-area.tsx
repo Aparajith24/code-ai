@@ -27,12 +27,12 @@ const EditorArea = () => {
               <div>
                 <p>Output will be displayed here</p>
               </div>
-              <div className="mt-[69vh]">
-                <AIChat />
-              </div>
             </div>
           </ResizablePanel>
         </ResizablePanelGroup>
+        <div className="mt-[-7vh] lg:ml-[68vw] md:ml-[40vw]">
+          <AIChat />
+        </div>
       </div>
     </>
   );
