@@ -21,13 +21,12 @@ const Code = () => {
   };
 
   const handleThemeChange = (value: string) => {
-    if(value === "Light"){
-        setTheme("light");
+    if (value === "Light") {
+      setTheme("light");
+    } else if (value === "Dark") {
+      setTheme("vs-dark");
     }
-    else if(value === "Dark"){
-        setTheme("vs-dark");
-    }
-  }
+  };
 
   const getCommentSyntax = (lang: string) => {
     switch (lang) {
@@ -40,6 +39,29 @@ const Code = () => {
       default:
         return "#";
     }
+  };
+
+  const handleEditorMount = (editor: any) => {
+    editor.addAction({
+      id: "1",
+      label: "Refactor with AI",
+      keybindings: [
+        monaco.KeyMod.CtrlCmd | monaco.KeyCode.F10,
+        monaco.KeyMod.chord(
+          monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyK,
+          monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyM,
+        ),
+      ],
+      precondition: null,
+      keybindingContext: null,
+      contextMenuGroupId: "navigation",
+      contextMenuOrder: 1.5,
+      run: function (ai: any) {
+        const selection = editor.getSelection();
+        const selectedText = editor.getModel().getValueInRange(selection);
+        alert("Selected text: " + selectedText);
+      },
+    });
   };
 
   return (
@@ -76,12 +98,11 @@ const Code = () => {
         language={language}
         value={editorValue}
         theme={theme}
-        onChange={
-            (value) => {
-                setEditorValue(value || "");
-                setTheme(theme);
-            }
-        }
+        onChange={(value) => {
+          setEditorValue(value || "");
+          setTheme(theme);
+        }}
+        onMount={handleEditorMount}
       />
     </div>
   );
