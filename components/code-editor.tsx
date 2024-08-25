@@ -21,10 +21,14 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-const Code = () => {
+interface CodeProps {
+  editorValue: string;
+  setEditorValue: (value: string) => void;
+}
+
+const Code = ({ editorValue, setEditorValue }: CodeProps) => {
   const [language, setLanguage] = useState("python");
   const [theme, setTheme] = useState("Light");
-  const [editorValue, setEditorValue] = useState("# Write your code here");
   const [selectedCode, setSelectedCode] = useState("");
   const [modelOpen, setModelOpen] = useState(false);
 
