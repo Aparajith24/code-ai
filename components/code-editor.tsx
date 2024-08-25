@@ -1,6 +1,17 @@
 import React, { useEffect, useState } from "react";
+import * as monaco from "monaco-editor";
 import Editor from "@monaco-editor/react";
 import { Button } from "./ui/button";
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 
 import {
   Select,
@@ -14,6 +25,8 @@ const Code = () => {
   const [language, setLanguage] = useState("python");
   const [theme, setTheme] = useState("Light");
   const [editorValue, setEditorValue] = useState("# Write your code here");
+  const [selectedCode, setSelectedCode] = useState("");
+  const [modelOpen, setModelOpen] = useState(false);
 
   const handleLanguageChange = (value: string) => {
     setLanguage(value);
@@ -59,7 +72,8 @@ const Code = () => {
       run: function (ai: any) {
         const selection = editor.getSelection();
         const selectedText = editor.getModel().getValueInRange(selection);
-        alert("Selected text: " + selectedText);
+        setSelectedCode(selectedText);
+        setModelOpen(true);
       },
     });
   };
@@ -104,6 +118,37 @@ const Code = () => {
         }}
         onMount={handleEditorMount}
       />
+      {modelOpen && (
+        <Dialog open={modelOpen} onOpenChange={setModelOpen}>
+          <DialogContent className="w-[85vw] h-[90vh]">
+            <DialogHeader>
+              <DialogTitle>Refactor with AI</DialogTitle>
+              <DialogDescription>
+                Refactor the selected code with AI
+              </DialogDescription>
+            </DialogHeader>
+            <div className="p-5 flex space-x-5">
+              <div>
+                <p className="text-lg font-bold">Selected Code</p>
+                <div className="max-h-[60vh] overflow-y-auto border p-2 bg-gray-100 rounded-md">
+                  <pre className="text-sm">{selectedCode}</pre>
+                </div>
+              </div>
+              <div>
+                <p className="text-lg font-bold">Refactored Code</p>
+                <div className="max-h-[60vh] overflow-y-auto border p-2 bg-gray-100 rounded-md">
+                  <pre className="text-sm">{selectedCode}</pre>
+                </div>
+              </div>
+            </div>
+            <DialogFooter>
+              <DialogClose asChild>
+                <Button onClick={() => setModelOpen(false)}>Cancel</Button>
+              </DialogClose>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
+      )}
     </div>
   );
 };

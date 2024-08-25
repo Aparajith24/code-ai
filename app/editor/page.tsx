@@ -5,9 +5,9 @@ import React from "react";
 
 export default function Editor() {
   return (
-    <>
-       <Nav />
-       <EditorArea/>
-    </>
+    <main>
+      <Nav />
+      <EditorArea />
+    </main>
   );
 }
