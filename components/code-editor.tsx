@@ -62,7 +62,9 @@ const Code = ({ editorValue, setEditorValue }: CodeProps) => {
       case "python":
         return "#";
       case "c":
+        return "//";
       case "java":
+        return "//";
       case "cpp":
         return "//";
       default:
@@ -152,13 +154,13 @@ const Code = ({ editorValue, setEditorValue }: CodeProps) => {
             <div className="p-5 lg:grid lg:grid-cols-2 lg:space-x-5">
               <div className="mt-5">
                 <p className="text-lg font-bold">Selected Code</p>
-                <div className="max-h-[60vh] overflow-y-auto border p-2 bg-gray-100 rounded-md">
+                <div className="max-h-[60vh] overflow-y-auto border p-2 rounded-md">
                   <pre className="text-sm">{selectedCode}</pre>
                 </div>
               </div>
               <div className="mt-5">
                 <p className="text-lg font-bold">Refactored Code</p>
-                <div className="max-h-[60vh] overflow-y-auto border p-2 bg-gray-100 rounded-md">
+                <div className="max-h-[60vh] overflow-y-auto border p-2 rounded-md">
                   <pre className="text-sm">{selectedCode}</pre>
                 </div>
               </div>
