@@ -32,11 +32,13 @@ const Code = ({ editorValue, setEditorValue }: CodeProps) => {
   const [selectedCode, setSelectedCode] = useState("");
   const [modelOpen, setModelOpen] = useState(false);
 
+  //handles the default comment syntax for the selected language
   const handleLanguageChange = (value: string) => {
     setLanguage(value);
     setEditorValue(getCommentSyntax(value) + " Write your code here");
   };
 
+  //handles the theme change
   const handleThemeChange = (value: string) => {
     if (value === "Light") {
       setTheme("light");
@@ -45,6 +47,7 @@ const Code = ({ editorValue, setEditorValue }: CodeProps) => {
     }
   };
 
+  //function to get the comment syntax for the selected language
   const getCommentSyntax = (lang: string) => {
     switch (lang) {
       case "python":
@@ -58,6 +61,7 @@ const Code = ({ editorValue, setEditorValue }: CodeProps) => {
     }
   };
 
+  //custom actoin to refactor the selected code with AI
   const handleEditorMount = (editor: any) => {
     editor.addAction({
       id: "1",
@@ -86,6 +90,7 @@ const Code = ({ editorValue, setEditorValue }: CodeProps) => {
     <div className="mt-2">
       <div className="flex space-x-5 border-b mb-5">
         <div className="ml-5">
+          {/* Top Bar in the editor */}
           <Select onValueChange={handleLanguageChange}>
             <SelectTrigger className="w-[180px] rounded-[12px] font-bold">
               <SelectValue placeholder={language} />
@@ -111,6 +116,7 @@ const Code = ({ editorValue, setEditorValue }: CodeProps) => {
         </div>
         <Button className="ml-5 mb-2">Run</Button>
       </div>
+      {/* Editor component */}
       <Editor
         height="78vh"
         language={language}
@@ -122,6 +128,7 @@ const Code = ({ editorValue, setEditorValue }: CodeProps) => {
         }}
         onMount={handleEditorMount}
       />
+      {/* Dialog component for Refactor with AI */}
       {modelOpen && (
         <Dialog open={modelOpen} onOpenChange={setModelOpen}>
           <DialogContent className="lg:w-[85vw] h-[90vh] md:w-[90vw] md:overflow-y-auto">
