@@ -12,9 +12,11 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import Model from "./model-selection";
+import UserOptions from "./user-options";
 
 const EditorArea = () => {
   const [editorValue, setEditorValue] = React.useState(
@@ -56,7 +58,7 @@ const EditorArea = () => {
     <>
       {/*UI for the top bar of the editor */}
       <div className="lg:mb-[5%] md:mb-[10%]">
-        <div className="fixed top-0 left-0 right-0 bg-white z-10 border-b border-gray-200 pb-2">
+        <div className="fixed top-0 left-0 right-0 z-10 border-b pb-2">
           <div className="grid grid-cols-2 pt-3 mx-auto pl-8 pr-8">
             <div className="flex space-x-5">
               <DropdownMenu>
@@ -74,7 +76,7 @@ const EditorArea = () => {
                 <DropdownMenuContent className="ml-8 p-4">
                   <label
                     htmlFor="file-input"
-                    className="flex items-center cursor-pointer text-sm hover:cursor-pointer mb-2 hover:bg-gray-100"
+                    className="flex items-center cursor-pointer text-sm hover:cursor-pointer mb-2 "
                   >
                     <Upload className="h-4 w-4 mr-2" /> Upload Code
                     <input
@@ -84,9 +86,10 @@ const EditorArea = () => {
                       className="hidden"
                     />
                   </label>
+                  <DropdownMenuSeparator />
                   <label
                     htmlFor="save"
-                    className="flex items-center cursor-pointer text-sm hover:cursor-pointer hover:bg-gray-100"
+                    className="flex items-center cursor-pointer text-sm hover:cursor-pointer"
                   >
                     <Save className="h-4 w-4 mr-2" /> Download Code
                   </label>
@@ -94,12 +97,7 @@ const EditorArea = () => {
               </DropdownMenu>
               <Model />
             </div>
-            <Button
-              variant="outline"
-              className="relative h-10 w-10 rounded-full justify-self-end p-0"
-            >
-              <User className="w-5 h-5" />
-            </Button>
+            <UserOptions />
           </div>
         </div>
       </div>

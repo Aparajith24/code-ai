@@ -20,6 +20,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useTheme } from "next-themes";
 
 interface CodeProps {
   editorValue: string;
@@ -28,9 +29,17 @@ interface CodeProps {
 
 const Code = ({ editorValue, setEditorValue }: CodeProps) => {
   const [language, setLanguage] = useState("python");
-  const [theme, setTheme] = useState("Light");
   const [selectedCode, setSelectedCode] = useState("");
   const [modelOpen, setModelOpen] = useState(false);
+  const { theme, resolvedTheme } = useTheme();
+  const isDarkTheme = theme === "dark";
+  const [editorTheme, setEditorTheme] = useState(
+    resolvedTheme == "dark" ? "vs-dark" : "light",
+  );
+
+  React.useEffect(() => {
+    setEditorTheme(resolvedTheme === "dark" ? "vs-dark" : "light");
+  }, [resolvedTheme]);
 
   //handles the default comment syntax for the selected language
   const handleLanguageChange = (value: string) => {
@@ -41,9 +50,9 @@ const Code = ({ editorValue, setEditorValue }: CodeProps) => {
   //handles the theme change
   const handleThemeChange = (value: string) => {
     if (value === "Light") {
-      setTheme("light");
+      setEditorTheme("light");
     } else if (value === "Dark") {
-      setTheme("vs-dark");
+      setEditorTheme("vs-dark");
     }
   };
 
@@ -106,7 +115,9 @@ const Code = ({ editorValue, setEditorValue }: CodeProps) => {
         <div className="ml-5">
           <Select onValueChange={handleThemeChange}>
             <SelectTrigger className="w-[180px] rounded-[12px] font-bold">
-              <SelectValue placeholder={theme} />
+              <SelectValue
+                placeholder={editorTheme == "vs-dark" ? "Dark" : "Light"}
+              />
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="Light">Light</SelectItem>
@@ -121,10 +132,10 @@ const Code = ({ editorValue, setEditorValue }: CodeProps) => {
         height="78vh"
         language={language}
         value={editorValue}
-        theme={theme}
+        theme={editorTheme}
         onChange={(value) => {
           setEditorValue(value || "");
-          setTheme(theme);
+          setEditorTheme(isDarkTheme ? "vs-dark" : "light");
         }}
         onMount={handleEditorMount}
       />
