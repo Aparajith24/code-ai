@@ -11,7 +11,6 @@ import { ChevronDown, Save, Upload, User } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
@@ -22,6 +21,30 @@ const EditorArea = () => {
   const [editorValue, setEditorValue] = React.useState(
     "# Write your code here",
   );
+  const [language, setLanguage] = React.useState("python");
+  const [output, setOutput] = React.useState("");
+
+  //Function to execute the code
+  const executeCode = async () => {
+    try {
+      const response = await fetch("http://localhost:8080/execute", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ code: editorValue, language }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      const data = await response.json();
+      setOutput(data.output);
+    } catch (error) {
+      console.error("Error:", error);
+      setOutput("Error executing code");
+    }
+  };
 
   //Function to handle the file upload and read the content of the file
   const handleFileRead = async (file: any) => {
@@ -111,6 +134,9 @@ const EditorArea = () => {
             <Code
               editorValue={editorValue}
               setEditorValue={handleSetEditorValue}
+              language={language}
+              setLanguage={setLanguage}
+              executeCode={executeCode}
             />
           </ResizablePanel>
           <ResizableHandle />
@@ -119,8 +145,8 @@ const EditorArea = () => {
               <div className="flex space-x-5 border-b mb-5">
                 <h1 className="ml-5 mb-5 text-xl font-bold">Output</h1>
               </div>
-              <div>
-                <p>Output will be displayed here</p>
+              <div className="ml-5">
+                <p>{output}</p>
               </div>
             </div>
           </ResizablePanel>

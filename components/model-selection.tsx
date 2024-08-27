@@ -26,9 +26,10 @@ export default function Model() {
     setModel(value);
   };
 
-  const handleApiKeyChange = (value: any) => {
-    setApiKey(value);
-  }
+  const submitModelandApi = () => {
+    console.log(apiKey);
+    console.log(model);
+  };
   return (
     <>
       <Dialog>
@@ -40,7 +41,7 @@ export default function Model() {
             <div className="mx-auto">{model}</div>
           </Button>
         </DialogTrigger>
-        <DialogContent>
+        <DialogContent className="w-[30vw]">
           <DialogHeader>
             <DialogTitle>
               Please Select Your Model and Enter your API Key
@@ -62,10 +63,13 @@ export default function Model() {
             aria-label="API Key"
             placeholder="API Key"
             className="w-full"
+            onChange={(e) => setApiKey(e.target.value)}
           />
           <DialogFooter>
             <DialogClose asChild>
-              <Button onClick={handleApiKeyChange} className="rounded-[12px]">Submit</Button>
+              <Button onClick={submitModelandApi} className="rounded-[12px]">
+                Submit
+              </Button>
             </DialogClose>
           </DialogFooter>
         </DialogContent>

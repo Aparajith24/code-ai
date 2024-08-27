@@ -25,10 +25,18 @@ import { useTheme } from "next-themes";
 interface CodeProps {
   editorValue: string;
   setEditorValue: (value: string) => void;
+  language: string;
+  setLanguage: (value: string) => void;
+  executeCode: () => void;
 }
 
-const Code = ({ editorValue, setEditorValue }: CodeProps) => {
-  const [language, setLanguage] = useState("python");
+const Code = ({
+  editorValue,
+  setEditorValue,
+  language,
+  setLanguage,
+  executeCode,
+}: CodeProps) => {
   const [selectedCode, setSelectedCode] = useState("");
   const [modelOpen, setModelOpen] = useState(false);
   const { theme, resolvedTheme } = useTheme();
@@ -36,6 +44,7 @@ const Code = ({ editorValue, setEditorValue }: CodeProps) => {
   const [editorTheme, setEditorTheme] = useState(
     resolvedTheme == "dark" ? "vs-dark" : "light",
   );
+  const [output, setOutput] = useState("");
 
   React.useEffect(() => {
     setEditorTheme(resolvedTheme === "dark" ? "vs-dark" : "light");
@@ -127,7 +136,9 @@ const Code = ({ editorValue, setEditorValue }: CodeProps) => {
             </SelectContent>
           </Select>
         </div>
-        <Button className="ml-5 mb-2">Run</Button>
+        <Button className="ml-5 mb-2" onClick={executeCode}>
+          Run
+        </Button>
       </div>
       {/* Editor component */}
       <Editor
