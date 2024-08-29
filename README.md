@@ -1,4 +1,4 @@
-## Code.AI
+## Code.AI (ONGOING PROJECT - NOT YET COMPLETED)
 
 **Code.AI** is an online code editor designed to supercharge your coding experience with the power of AI. It helps you write code faster, refactor inline code efficiently, and resolve bugs with an integrated chat area.
 
