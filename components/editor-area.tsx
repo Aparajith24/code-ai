@@ -30,7 +30,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import Model from "./model-selection";
 import UserOptions from "./user-options";
 import { Input } from "./ui/input";
 
@@ -167,8 +166,16 @@ const EditorArea = () => {
                       </SelectTrigger>
                       <SelectContent>
                         <SelectItem value="gpt-3.5-turbo">
-                          OpenAI GPT-3
+                          OpenAI GPT-3.5 Turbo
                         </SelectItem>
+                        <SelectItem value="gpt-4o">OpenAI GPT-4o</SelectItem>
+                        <SelectItem value="gpt-4o-mini">
+                          OpenAI GPT-4o Mini
+                        </SelectItem>
+                        <SelectItem value="gpt-4-turbo">
+                          OpenAI GPT-4 Turbo
+                        </SelectItem>
+                        <SelectItem value="gpt-4">OpenAI GPT-4</SelectItem>
                       </SelectContent>
                     </Select>
                     <Input

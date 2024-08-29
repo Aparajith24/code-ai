@@ -46,7 +46,7 @@ const Code = ({
   const { theme, resolvedTheme } = useTheme();
   const isDarkTheme = theme === "dark";
   const [editorTheme, setEditorTheme] = useState(
-    resolvedTheme == "dark" ? "vs-dark" : "light",
+    resolvedTheme == "dark" ? "vs-dark" : "light"
   );
   const [output, setOutput] = useState("");
   const prompt = "Refactor the selected code with AI" + "\n" + selectedCode;
@@ -121,7 +121,7 @@ const Code = ({
         monaco.KeyMod.CtrlCmd | monaco.KeyCode.F10,
         monaco.KeyMod.chord(
           monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyK,
-          monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyM,
+          monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyM
         ),
       ],
       precondition: null,
