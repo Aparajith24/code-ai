@@ -14,8 +14,25 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import Model from "./model-selection";
 import UserOptions from "./user-options";
+import { Input } from "./ui/input";
 
 const EditorArea = () => {
   const [editorValue, setEditorValue] = React.useState(
@@ -23,6 +40,16 @@ const EditorArea = () => {
   );
   const [language, setLanguage] = React.useState("python");
   const [output, setOutput] = React.useState("");
+  const [model, setModel] = React.useState("Select Model");
+  const [apiKey, setApiKey] = React.useState("");
+  const handleModelChange = (value: any) => {
+    setModel(value);
+  };
+
+  const submitModelandApi = () => {
+    console.log(apiKey);
+    console.log(model);
+  };
 
   //Function to execute the code
   const executeCode = async () => {
@@ -118,7 +145,51 @@ const EditorArea = () => {
                   </label>
                 </DropdownMenuContent>
               </DropdownMenu>
-              <Model />
+              <div>
+                <Dialog>
+                  <DialogTrigger asChild>
+                    <Button
+                      className="rounded-[12px] flex items-center font-bold"
+                      variant={"outline"}
+                    >
+                      <div className="mx-auto">{model}</div>
+                    </Button>
+                  </DialogTrigger>
+                  <DialogContent className="w-[30vw]">
+                    <DialogHeader>
+                      <DialogTitle>
+                        Please Select Your Model and Enter your API Key
+                      </DialogTitle>
+                    </DialogHeader>
+                    <Select onValueChange={handleModelChange}>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select Model" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="gpt-3.5-turbo">
+                          OpenAI GPT-3
+                        </SelectItem>
+                      </SelectContent>
+                    </Select>
+                    <Input
+                      aria-label="API Key"
+                      placeholder="API Key"
+                      className="w-full"
+                      onChange={(e) => setApiKey(e.target.value)}
+                    />
+                    <DialogFooter>
+                      <DialogClose asChild>
+                        <Button
+                          onClick={submitModelandApi}
+                          className="rounded-[12px]"
+                        >
+                          Submit
+                        </Button>
+                      </DialogClose>
+                    </DialogFooter>
+                  </DialogContent>
+                </Dialog>
+              </div>
             </div>
             <UserOptions />
           </div>
@@ -137,6 +208,8 @@ const EditorArea = () => {
               language={language}
               setLanguage={setLanguage}
               executeCode={executeCode}
+              model={model}
+              apiKey={apiKey}
             />
           </ResizablePanel>
           <ResizableHandle />

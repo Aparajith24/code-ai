@@ -28,6 +28,8 @@ interface CodeProps {
   language: string;
   setLanguage: (value: string) => void;
   executeCode: () => void;
+  apiKey: string;
+  model: string;
 }
 
 const Code = ({
@@ -36,6 +38,8 @@ const Code = ({
   language,
   setLanguage,
   executeCode,
+  apiKey,
+  model,
 }: CodeProps) => {
   const [selectedCode, setSelectedCode] = useState("");
   const [modelOpen, setModelOpen] = useState(false);
@@ -45,6 +49,33 @@ const Code = ({
     resolvedTheme == "dark" ? "vs-dark" : "light",
   );
   const [output, setOutput] = useState("");
+  const prompt = "Refactor the selected code with AI" + "\n" + selectedCode;
+
+  const executeai = async () => {
+    try {
+      const response = await fetch("http://localhost:8080/openai", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          prompt: prompt,
+          model: model,
+          apiKey: apiKey,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      const data = await response.json();
+      console.log("API Response:", data);
+      setOutput(data.choices[0].message.content);
+    } catch (error) {
+      console.error("Error:", error);
+      setOutput("Error executing code");
+    }
+  };
 
   React.useEffect(() => {
     setEditorTheme(resolvedTheme === "dark" ? "vs-dark" : "light");
@@ -162,6 +193,7 @@ const Code = ({
                 Refactor the selected code with AI
               </DialogDescription>
             </DialogHeader>
+            <Button onClick={executeai}>Refactor</Button>
             <div className="p-5 lg:grid lg:grid-cols-2 lg:space-x-5">
               <div className="mt-5">
                 <p className="text-lg font-bold">Selected Code</p>
@@ -172,7 +204,7 @@ const Code = ({
               <div className="mt-5">
                 <p className="text-lg font-bold">Refactored Code</p>
                 <div className="max-h-[60vh] overflow-y-auto border p-2 rounded-md">
-                  <pre className="text-sm">{selectedCode}</pre>
+                  <pre className="text-sm">{output}</pre>
                 </div>
               </div>
             </div>
