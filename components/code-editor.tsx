@@ -46,10 +46,21 @@ const Code = ({
   const { theme, resolvedTheme } = useTheme();
   const isDarkTheme = theme === "dark";
   const [editorTheme, setEditorTheme] = useState(
-    resolvedTheme == "dark" ? "vs-dark" : "light"
+    resolvedTheme == "dark" ? "vs-dark" : "light",
   );
   const [output, setOutput] = useState("");
-  const prompt = "Refactor the selected code with AI" + "\n" + selectedCode;
+  const prompt = `You’re an expert software engineer with over 15 years of experience in optimizing code for performance, readability, and maintainability. You possess a deep understanding of various programming languages and best practices, enabling you to transform existing code into more efficient and elegant solutions.
+
+  Your task is to take the code I provide and enhance it. Here is the code snippet I would like you to improve:
+  \`\`\`
+  ${selectedCode}
+  \`\`\`
+  Please ensure that your improvements focus on three key areas: making the code run faster, improving readability, and implementing best practices according to current coding standards.
+
+  As you work on the improvements, keep in mind the following considerations:
+  - The original functionality of the code should remain intact.
+  - Aim for clear and concise comments throughout the code to explain your thought process.
+  - If any libraries or frameworks are required for the enhancements, please suggest those as well.`;
 
   const executeai = async () => {
     try {
@@ -121,7 +132,7 @@ const Code = ({
         monaco.KeyMod.CtrlCmd | monaco.KeyCode.F10,
         monaco.KeyMod.chord(
           monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyK,
-          monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyM
+          monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyM,
         ),
       ],
       precondition: null,
