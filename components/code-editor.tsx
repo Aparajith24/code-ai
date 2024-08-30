@@ -21,6 +21,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useTheme } from "next-themes";
+import { RefactorCode } from "./refactor-code";
 
 interface CodeProps {
   editorValue: string;
@@ -49,6 +50,7 @@ const Code = ({
     resolvedTheme == "dark" ? "vs-dark" : "light",
   );
   const [output, setOutput] = useState("");
+  const [loading, setLoading] = useState(false);
   const prompt = `You’re an expert software engineer with over 15 years of experience in optimizing code for performance, readability, and maintainability. You possess a deep understanding of various programming languages and best practices, enabling you to transform existing code into more efficient and elegant solutions.
 
   Your task is to take the code I provide and enhance it. Here is the code snippet I would like you to improve:
@@ -60,9 +62,13 @@ const Code = ({
   As you work on the improvements, keep in mind the following considerations:
   - The original functionality of the code should remain intact.
   - Aim for clear and concise comments throughout the code to explain your thought process.
-  - If any libraries or frameworks are required for the enhancements, please suggest those as well.`;
+  - If any libraries or frameworks are required for the enhancements, please suggest those as well.
+
+  Only provide the code snippet with your enhancements. Do not include any additional information or context.
+  `;
 
   const executeai = async () => {
+    setLoading(true);
     try {
       const response = await fetch("http://localhost:8080/openai", {
         method: "POST",
@@ -82,6 +88,7 @@ const Code = ({
       const data = await response.json();
       console.log("API Response:", data);
       setOutput(data.choices[0].message.content);
+      setLoading(false);
     } catch (error) {
       console.error("Error:", error);
       setOutput("Error executing code");
@@ -148,6 +155,17 @@ const Code = ({
     });
   };
 
+  const acceptchanges = (value: string) => {
+    setEditorValue(value);
+    setModelOpen(false);
+    setOutput("");
+  };
+
+  const declinechanges = () => {
+    setModelOpen(false);
+    setOutput("");
+  };
+
   return (
     <div className="mt-2">
       <div className="flex space-x-5 border-b mb-5">
@@ -190,42 +208,21 @@ const Code = ({
         theme={editorTheme}
         onChange={(value) => {
           setEditorValue(value || "");
-          setEditorTheme(isDarkTheme ? "vs-dark" : "light");
         }}
         onMount={handleEditorMount}
       />
       {/* Dialog component for Refactor with AI */}
       {modelOpen && (
-        <Dialog open={modelOpen} onOpenChange={setModelOpen}>
-          <DialogContent className="lg:w-[85vw] h-[90vh] md:w-[90vw] md:overflow-y-auto">
-            <DialogHeader>
-              <DialogTitle>Refactor with AI</DialogTitle>
-              <DialogDescription>
-                Refactor the selected code with AI
-              </DialogDescription>
-            </DialogHeader>
-            <Button onClick={executeai}>Refactor</Button>
-            <div className="p-5 lg:grid lg:grid-cols-2 lg:space-x-5">
-              <div className="mt-5">
-                <p className="text-lg font-bold">Selected Code</p>
-                <div className="max-h-[60vh] overflow-y-auto border p-2 rounded-md">
-                  <pre className="text-sm">{selectedCode}</pre>
-                </div>
-              </div>
-              <div className="mt-5">
-                <p className="text-lg font-bold">Refactored Code</p>
-                <div className="max-h-[60vh] overflow-y-auto border p-2 rounded-md">
-                  <pre className="text-sm">{output}</pre>
-                </div>
-              </div>
-            </div>
-            <DialogFooter>
-              <DialogClose asChild>
-                <Button onClick={() => setModelOpen(false)}>Cancel</Button>
-              </DialogClose>
-            </DialogFooter>
-          </DialogContent>
-        </Dialog>
+        <RefactorCode
+          selectedCode={selectedCode}
+          modelOpen={modelOpen}
+          setModelOpen={setModelOpen}
+          executeai={executeai}
+          output={output}
+          isLoading={loading}
+          accept={acceptchanges}
+          decline={declinechanges}
+        />
       )}
     </div>
   );
