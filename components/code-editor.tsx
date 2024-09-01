@@ -2,16 +2,6 @@ import React, { useEffect, useState } from "react";
 import * as monaco from "monaco-editor";
 import Editor from "@monaco-editor/react";
 import { Button } from "./ui/button";
-import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
 
 import {
   Select,
@@ -88,6 +78,33 @@ const Code = ({
       const data = await response.json();
       console.log("API Response:", data);
       setOutput(data.choices[0].message.content);
+      setLoading(false);
+    } catch (error) {
+      console.error("Error:", error);
+      setOutput("Error executing code");
+    }
+  };
+
+  const executegeminiai = async () => {
+    setLoading(true);
+    try {
+      const response = await fetch("http://localhost:8080/gemini", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          prompt: prompt,
+          apiKey: apiKey,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      const data = await response.json();
+      console.log("API Response:", data);
+      setOutput(data.candidates[0].content.parts[0].text);
       setLoading(false);
     } catch (error) {
       console.error("Error:", error);
@@ -218,10 +235,12 @@ const Code = ({
           modelOpen={modelOpen}
           setModelOpen={setModelOpen}
           executeai={executeai}
+          executegeminiai={executegeminiai}
           output={output}
           isLoading={loading}
           accept={acceptchanges}
           decline={declinechanges}
+          AImodel={model}
         />
       )}
     </div>

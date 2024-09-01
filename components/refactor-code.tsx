@@ -16,11 +16,13 @@ interface RefactorCodeProps {
   modelOpen: boolean;
   setModelOpen: (isOpen: boolean) => void;
   executeai: () => void;
+  executegeminiai: () => void;
   selectedCode: string;
   output: string;
   isLoading: boolean;
   accept: (value: string) => void;
   decline: () => void;
+  AImodel: string;
 }
 
 export const RefactorCode = ({
@@ -32,6 +34,8 @@ export const RefactorCode = ({
   isLoading,
   accept,
   decline,
+  AImodel,
+  executegeminiai,
 }: RefactorCodeProps) => {
   return (
     <>
@@ -93,7 +97,13 @@ export const RefactorCode = ({
               </div>
             ) : (
               <div className="flex space-x-5">
-                <Button onClick={executeai}>Refactor</Button>
+                <Button
+                  onClick={
+                    AImodel == "gemini-1.5-flash" ? executegeminiai : executeai
+                  }
+                >
+                  Refactor
+                </Button>
                 <Button onClick={() => setModelOpen(false)}>Cancel </Button>
               </div>
             )}

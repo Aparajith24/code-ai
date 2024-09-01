@@ -176,6 +176,9 @@ const EditorArea = () => {
                           OpenAI GPT-4 Turbo
                         </SelectItem>
                         <SelectItem value="gpt-4">OpenAI GPT-4</SelectItem>
+                        <SelectItem value="gemini-1.5-flash">
+                          Gemini-1.5-Flash
+                        </SelectItem>
                       </SelectContent>
                     </Select>
                     <Input
