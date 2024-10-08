@@ -179,6 +179,9 @@ const EditorArea = () => {
                         <SelectItem value="gemini-1.5-flash">
                           Gemini-1.5-Flash
                         </SelectItem>
+                        <SelectItem value="Claude 3.5 Sonnet">
+                          Claude 3.5 Sonnet
+                        </SelectItem>
                       </SelectContent>
                     </Select>
                     <Input

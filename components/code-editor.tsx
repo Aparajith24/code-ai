@@ -41,20 +41,26 @@ const Code = ({
   );
   const [output, setOutput] = useState("");
   const [loading, setLoading] = useState(false);
-  const prompt = `You’re an expert software engineer with over 15 years of experience in optimizing code for performance, readability, and maintainability. You possess a deep understanding of various programming languages and best practices, enabling you to transform existing code into more efficient and elegant solutions.
+  const prompt = `You’re an expert software engineer with over 15 years of experience in optimizing code for performance, readability, and maintainability. Your extensive knowledge of various programming languages and best practices allows you to transform existing code into more efficient and elegant solutions.
 
-  Your task is to take the code I provide and enhance it. Here is the code snippet I would like you to improve:
+  Your task is to take the following code snippet and enhance it:
   \`\`\`
   ${selectedCode}
   \`\`\`
-  Please ensure that your improvements focus on three key areas: making the code run faster, improving readability, and implementing best practices according to current coding standards.
 
-  As you work on the improvements, keep in mind the following considerations:
-  - The original functionality of the code should remain intact.
-  - Aim for clear and concise comments throughout the code to explain your thought process.
-  - If any libraries or frameworks are required for the enhancements, please suggest those as well.
+  Focus on the following key areas:
 
-  Only provide the code snippet with your enhancements. Do not include any additional information or context.
+  1. **Performance**: Optimize the code to run faster by implementing efficient algorithms and data structures.
+  2. **Readability**: Refactor the code to be more concise and easier to understand, using clear naming conventions and reducing complexity where possible.
+  3. **Best Practices**: Apply current coding standards and best practices, ensuring the code is maintainable and follows conventions.
+
+  As you enhance the code, keep the following considerations in mind:
+  - Maintain the original functionality of the code.
+  - Include clear and concise comments throughout to explain your improvements and thought process.
+  - If any libraries or frameworks could enhance the functionality or efficiency, suggest those as well.
+
+  Please provide only the improved code snippet without any additional information or context.
+
   `;
 
   const executeai = async () => {
@@ -163,6 +169,27 @@ const Code = ({
       keybindingContext: null,
       contextMenuGroupId: "navigation",
       contextMenuOrder: 1.5,
+      run: function (ai: any) {
+        const selection = editor.getSelection();
+        const selectedText = editor.getModel().getValueInRange(selection);
+        setSelectedCode(selectedText);
+        setModelOpen(true);
+      },
+    });
+    editor.addAction({
+      id: "2",
+      label: "Show Git Diff",
+      keybindings: [
+        monaco.KeyMod.CtrlCmd | monaco.KeyCode.F10,
+        monaco.KeyMod.chord(
+          monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyK,
+          monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyG,
+        ),
+      ],
+      precondition: null,
+      keybindingContext: null,
+      contextMenuGroupId: "navigation",
+      contextMenuOrder: 2.5,
       run: function (ai: any) {
         const selection = editor.getSelection();
         const selectedText = editor.getModel().getValueInRange(selection);

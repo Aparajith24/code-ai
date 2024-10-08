@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { Button } from "./ui/button";
 import {
   Dialog,
-  DialogClose,
   DialogContent,
   DialogDescription,
   DialogFooter,
