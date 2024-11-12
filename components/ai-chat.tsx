@@ -20,10 +20,13 @@ interface AIChatProps {
   apiKey: string;
   editorValue: string;
   setEditorValue: (value: string) => void;
+  setModelOpen: (isOpen: boolean) => void;
+  modelOpen: boolean;
+  usingHelp: boolean;
+  setUsingHelp: (usingHelp: boolean) => void;
 }
 
-export default function AIChat({ code, model, apiKey, editorValue, setEditorValue }: AIChatProps) {
-  const [isOpen, setIsOpen] = useState(false);
+export default function AIChat({ code, model, apiKey, editorValue, setEditorValue, setModelOpen, modelOpen, usingHelp, setUsingHelp }: AIChatProps) {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -48,6 +51,13 @@ export default function AIChat({ code, model, apiKey, editorValue, setEditorValu
   const handleSetEditorValue = (codeContent: string) => {
     setEditorValue(codeContent);
   };
+
+  useEffect(() => {
+    if (usingHelp) {
+      setInput(code);
+    }
+  }, [usingHelp, code]);
+  
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -154,18 +164,21 @@ export default function AIChat({ code, model, apiKey, editorValue, setEditorValu
   return (
     <>
       <Button
-        onClick={() => setIsOpen(true)}
+        onClick={() => setModelOpen(true)}
         className="fixed bottom-4 right-4 h-12 w-12 rounded-full p-0"
         aria-label="Open AI Chat"
       >
         <Sparkles className="h-6 w-6" />
       </Button>
-      {isOpen && (
+      {modelOpen && (
         <div className="fixed inset-y-0 right-0 w-3/4 bg-background border-l border-border shadow-xl flex flex-col z-50">
           <div className="flex justify-between items-center p-4 border-b">
             <h2 className="text-lg font-semibold">AI Assistant</h2>
             <Button
-              onClick={() => setIsOpen(false)}
+              onClick={() =>{
+                setModelOpen(false);
+                setUsingHelp(false);
+              } }
               variant="ghost"
               size="icon"
               aria-label="Close AI Chat"
