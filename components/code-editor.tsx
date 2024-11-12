@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import * as monaco from "monaco-editor";
 import Editor from "@monaco-editor/react";
+import AIChat from "./ai-chat";
 import { Button } from "./ui/button";
 
 import {
@@ -211,6 +212,7 @@ const Code = ({
   };
 
   return (
+    <>
     <div className="mt-2">
       <div className="flex space-x-5 border-b mb-5">
         <div className="ml-5">
@@ -271,6 +273,10 @@ const Code = ({
         />
       )}
     </div>
+    <div className="mt-[-7vh] lg:ml-[65vw] md:ml-[40vw]">
+    <AIChat code={selectedCode} model={model} apiKey={apiKey} editorValue={editorValue}/>
+  </div>
+  </>
   );
 };
 

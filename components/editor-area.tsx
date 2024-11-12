@@ -5,7 +5,6 @@ import {
   ResizablePanelGroup,
 } from "@/components/ui/resizable";
 import Code from "./code-editor";
-import AIChat from "./ai-chat";
 import { Button } from "@/components/ui/button";
 import { ChevronDown, Save, Upload, User } from "lucide-react";
 import {
@@ -237,9 +236,7 @@ const EditorArea = () => {
             </div>
           </ResizablePanel>
         </ResizablePanelGroup>
-        <div className="mt-[-7vh] lg:ml-[65vw] md:ml-[40vw]">
-          <AIChat />
-        </div>
+        
       </div>
     </>
   );
