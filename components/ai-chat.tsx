@@ -1,6 +1,6 @@
 "use client";
 
-import { Sparkles, Send, X } from "lucide-react";
+import { Sparkles, Send, X, ClipboardCopy } from "lucide-react";
 import React, { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
@@ -19,9 +19,10 @@ interface AIChatProps {
   model: string;
   apiKey: string;
   editorValue: string;
+  setEditorValue: (value: string) => void;
 }
 
-export default function AIChat({ code, model, apiKey, editorValue }: AIChatProps) {
+export default function AIChat({ code, model, apiKey, editorValue, setEditorValue }: AIChatProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
@@ -42,6 +43,10 @@ export default function AIChat({ code, model, apiKey, editorValue }: AIChatProps
 
   const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setInput(e.target.value);
+  };
+
+  const handleSetEditorValue = (codeContent: string) => {
+    setEditorValue(codeContent);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -156,7 +161,7 @@ export default function AIChat({ code, model, apiKey, editorValue }: AIChatProps
         <Sparkles className="h-6 w-6" />
       </Button>
       {isOpen && (
-        <div className="fixed inset-y-0 right-0 w-1/2 bg-background border-l border-border shadow-xl flex flex-col z-50">
+        <div className="fixed inset-y-0 right-0 w-3/4 bg-background border-l border-border shadow-xl flex flex-col z-50">
           <div className="flex justify-between items-center p-4 border-b">
             <h2 className="text-lg font-semibold">AI Assistant</h2>
             <Button
@@ -188,14 +193,25 @@ export default function AIChat({ code, model, apiKey, editorValue }: AIChatProps
                       code({ node, inline, className, children, ...props }) {
                         const match = /language-(\w+)/.exec(className || "");
                         return !inline && match ? (
-                          <SyntaxHighlighter
-                            style={atomDark}
-                            language={match[1]}
-                            PreTag="div"
-                            {...props}
-                          >
-                            {String(children).replace(/\n$/, "")}
-                          </SyntaxHighlighter>
+                          <div className="relative">
+                            <SyntaxHighlighter
+                              style={atomDark}
+                              language={match[1]}
+                              PreTag="div"
+                              {...props}
+                            >
+                              {String(children).replace(/\n$/, "")}
+                            </SyntaxHighlighter>
+                            <Button
+                              onClick={() => handleSetEditorValue(String(children))}
+                              className="absolute top-2 right-2"
+                              size="icon"
+                              variant="outline"
+                            >
+                              <ClipboardCopy className="h-4 w-4 bg-transparent" />
+                              <span className="sr-only">Set editor value</span>
+                            </Button>
+                          </div>
                         ) : (
                           <code className={className} {...props}>
                             {children}

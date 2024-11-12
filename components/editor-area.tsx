@@ -102,6 +102,38 @@ const EditorArea = () => {
     setEditorValue(value);
   };
 
+  const handleCodeDownload = () => {
+    const element = document.createElement("a");
+    const file = new Blob([editorValue], { type: "text/plain" });
+    element.href = URL.createObjectURL(file);
+    if(language === "python"){
+      element.download = "code.py";
+    }
+    else if(language === "javascript"){
+      element.download = "code.js";
+    }
+    else if(language === "typescript"){
+      element.download = "code.ts";
+    }
+    else if(language === "java"){
+      element.download = "code.java";
+    }
+    else if(language === "c"){
+      element.download = "code.c";
+    }
+    else if(language === "cpp"){
+      element.download = "code.cpp";
+    }
+    else if(language === "plaintext"){
+      element.download = "code.txt";
+    }
+    else{
+      element.download = "code";
+    }
+    document.body.appendChild(element);
+    element.click();
+  }
+
   return (
     <>
       {/*UI for the top bar of the editor */}
@@ -138,6 +170,7 @@ const EditorArea = () => {
                   <label
                     htmlFor="save"
                     className="flex items-center cursor-pointer text-sm hover:cursor-pointer"
+                    onClick={handleCodeDownload}
                   >
                     <Save className="h-4 w-4 mr-2" /> Download Code
                   </label>

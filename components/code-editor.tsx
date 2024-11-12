@@ -274,7 +274,7 @@ const Code = ({
       )}
     </div>
     <div className="mt-[-7vh] lg:ml-[65vw] md:ml-[40vw]">
-    <AIChat code={selectedCode} model={model} apiKey={apiKey} editorValue={editorValue}/>
+    <AIChat code={selectedCode} model={model} apiKey={apiKey} editorValue={editorValue} setEditorValue={setEditorValue}/>
   </div>
   </>
   );
