@@ -205,7 +205,8 @@ const Code = ({
   };
 
   const acceptchanges = (value: string) => {
-    setEditorValue(value);
+    const newEditorValue = editorValue.replace(selectedCode, value);
+    setEditorValue(newEditorValue);
     setModelOpen(false);
     setOutput("");
   };
