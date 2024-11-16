@@ -3,6 +3,7 @@ import * as monaco from "monaco-editor";
 import Editor from "@monaco-editor/react";
 import AIChat from "./ai-chat";
 import { Button } from "./ui/button";
+import { motion, AnimatePresence } from "framer-motion";
 
 import {
   Select,
@@ -152,6 +153,12 @@ const Code = ({
         return "//";
       case "cpp":
         return "//";
+      case "nodejs":
+        return "//";
+      case "typescript":
+        return "//";
+      case "go":
+        return "//";
       default:
         return "#";
     }
@@ -231,6 +238,9 @@ const Code = ({
                 <SelectItem value="c">C</SelectItem>
                 <SelectItem value="java">Java</SelectItem>
                 <SelectItem value="cpp">C++</SelectItem>
+                <SelectItem value="nodejs">JavaScript</SelectItem>
+                <SelectItem value="typescript">TypeScript</SelectItem>
+                <SelectItem value="go">Go</SelectItem>
               </SelectContent>
             </Select>
           </div>

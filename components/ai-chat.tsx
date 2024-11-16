@@ -1,5 +1,5 @@
 "use client";
-
+import { motion, AnimatePresence } from "framer-motion";
 import { Sparkles, Send, X, ClipboardCopy } from "lucide-react";
 import React, { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
@@ -32,6 +32,12 @@ export default function AIChat({ code, model, apiKey, editorValue, setEditorValu
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+
+  const chatVariants = {
+    hidden: { x: "100%", opacity: 0 },
+    visible: { x: "0%", opacity: 1 },
+    exit: { x: "100%", opacity: 0 },
+  };
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -170,8 +176,16 @@ export default function AIChat({ code, model, apiKey, editorValue, setEditorValu
       >
         <Sparkles className="h-6 w-6" />
       </Button>
+      <AnimatePresence>
       {modelOpen && (
-        <div className="fixed inset-y-0 right-0 w-3/4 bg-background border-l border-border shadow-xl flex flex-col z-50">
+        <motion.div
+        className="fixed inset-y-0 right-0 w-3/4 bg-background border-l border-border shadow-xl flex flex-col z-50"
+        variants={chatVariants}
+        initial="hidden"
+        animate="visible"
+        exit="exit"
+        transition={{ type: "spring", stiffness: 100, damping: 20 }}
+      >
           <div className="flex justify-between items-center p-4 border-b">
             <h2 className="text-lg font-semibold">AI Assistant</h2>
             <Button
@@ -276,8 +290,9 @@ export default function AIChat({ code, model, apiKey, editorValue, setEditorValu
               <span className="sr-only">Send message</span>
             </Button>
           </form>
-        </div>
+        </motion.div>
       )}
+      </AnimatePresence>
     </>
   );
 }

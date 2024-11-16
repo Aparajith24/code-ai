@@ -40,6 +40,7 @@ const EditorArea = () => {
   const [output, setOutput] = React.useState("");
   const [model, setModel] = React.useState("Select Model");
   const [apiKey, setApiKey] = React.useState("");
+  const [loading, setLoading] = React.useState(false);
   const handleModelChange = (value: any) => {
     setModel(value);
   };
@@ -51,6 +52,7 @@ const EditorArea = () => {
 
   //Function to execute the code
   const executeCode = async () => {
+    setLoading(true);
     try {
       const response = await fetch("http://localhost:8080/execute", {
         method: "POST",
@@ -69,6 +71,7 @@ const EditorArea = () => {
       console.error("Error:", error);
       setOutput("Error executing code");
     }
+    setLoading(false);
   };
 
   //Function to handle the file upload and read the content of the file
@@ -123,6 +126,15 @@ const EditorArea = () => {
     }
     else if(language === "cpp"){
       element.download = "code.cpp";
+    }
+    else if(language === "go"){
+      element.download = "code.go";
+    }
+    else if(language === "nodejs"){
+      element.download = "code.js";
+    }
+    else if(language === "typescript"){
+      element.download = "code.ts";
     }
     else if(language === "plaintext"){
       element.download = "code.txt";
@@ -263,9 +275,15 @@ const EditorArea = () => {
               <div className="flex space-x-5 border-b mb-5">
                 <h1 className="ml-5 mb-5 text-xl font-bold">Output</h1>
               </div>
-              <div className="ml-5">
-                <p>{output}</p>
-              </div>
+              {loading ? (
+                <div className="ml-5">
+                  <p>Executing...</p>
+                </div>
+              ) : (
+                <div className="ml-5">
+                  <p>{output}</p>
+                </div>
+              )}
             </div>
           </ResizablePanel>
         </ResizablePanelGroup>
