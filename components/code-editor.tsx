@@ -250,6 +250,7 @@ const Code = ({
                 <SelectItem value="nodejs">JavaScript</SelectItem>
                 <SelectItem value="typescript">TypeScript</SelectItem>
                 <SelectItem value="go">Go</SelectItem>
+                <SelectItem value="php">PHP</SelectItem>
               </SelectContent>
             </Select>
           </div>
