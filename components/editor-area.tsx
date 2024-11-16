@@ -6,7 +6,7 @@ import {
 } from "@/components/ui/resizable";
 import Code from "./code-editor";
 import { Button } from "@/components/ui/button";
-import { ChevronDown, Save, Upload, User } from "lucide-react";
+import { ChevronDown, Save, Upload, User, Bot } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -157,7 +157,7 @@ const EditorArea = () => {
                 <DropdownMenuTrigger asChild>
                   <Button
                     variant={"outline"}
-                    className="rounded-[12px] border-grey-400 flex items-center"
+                    className="rounded-[12px] border-grey-400 flex items-center text-white bg-blue-700"
                   >
                     <div className="flex space-x-2 items-center">
                       <div className="mx-auto font-bold">File</div>
@@ -195,7 +195,10 @@ const EditorArea = () => {
                       className="rounded-[12px] flex items-center font-bold"
                       variant={"outline"}
                     >
+                      <div className="flex space-x-2 items-center">
+                      <Bot size={20} className="text-slate-400" />
                       <div className="mx-auto">{model}</div>
+                      </div>
                     </Button>
                   </DialogTrigger>
                   <DialogContent className="w-[30vw]">
@@ -256,7 +259,7 @@ const EditorArea = () => {
       <div className="ml-[1%] mr-[1%]">
         <ResizablePanelGroup
           direction="horizontal"
-          className="min-h-[78vh]  rounded-lg border md:min-w-[450px]"
+          className="min-h-[78vh]  rounded-lg border border-4 md:min-w-[450px]"
         >
           <ResizablePanel defaultSize={70}>
             <Code
@@ -269,10 +272,10 @@ const EditorArea = () => {
               apiKey={apiKey}
             />
           </ResizablePanel>
-          <ResizableHandle />
+          <ResizableHandle className="border-2"/>
           <ResizablePanel defaultSize={30}>
             <div className="mt-2">
-              <div className="flex space-x-5 border-b mb-5">
+              <div className="flex space-x-5 border-b-4 mb-5">
                 <h1 className="ml-5 mb-5 text-xl font-bold">Output</h1>
               </div>
               {loading ? (

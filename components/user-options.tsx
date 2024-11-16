@@ -56,7 +56,7 @@ const UserOptions = () => {
         <DropdownMenuTrigger>
           <Button
             variant="outline"
-            className="relative h-10 w-10 rounded-full justify-self-end p-0"
+            className="relative h-10 w-10 rounded-full justify-self-end p-0 border-2"
           >
             <User className="w-5 h-5" />
           </Button>

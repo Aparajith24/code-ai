@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/card";
 import { Github, Mail } from 'lucide-react';
 import { UserAuth } from "@/app/AuthContext";
+import { AuthContextProvider } from "../AuthContext";
 
 export default function LoginPage() {
   const { login, googleSignIn, githubSignIn } = UserAuth() || {};
@@ -82,6 +83,7 @@ export default function LoginPage() {
   };
 
   return (
+    <AuthContextProvider>
     <div className="min-h-screen flex items-center justify-center bg-gray-100 dark:bg-gray-900">
       <Card className="w-full max-w-md">
         <CardHeader className="space-y-1">
@@ -169,5 +171,6 @@ export default function LoginPage() {
         </CardFooter>
       </Card>
     </div>
+    </AuthContextProvider>
   );
 }

@@ -171,7 +171,7 @@ export default function AIChat({ code, model, apiKey, editorValue, setEditorValu
     <>
       <Button
         onClick={() => setModelOpen(true)}
-        className="fixed bottom-4 right-4 h-12 w-12 rounded-full p-0"
+        className="fixed bottom-4 right-4 h-12 w-12 rounded-full p-0 bg-gradient-to-r from-cyan-500 to-blue-500"
         aria-label="Open AI Chat"
       >
         <Sparkles className="h-6 w-6" />
@@ -257,7 +257,7 @@ export default function AIChat({ code, model, apiKey, editorValue, setEditorValu
               <div className="text-left mb-4">
                 <div className="inline-block p-3 rounded-lg bg-muted">
                   <span className="inline-block animate-pulse">
-                    Thinking<span className="dots">...</span>
+                    <span className="dots">...</span>
                   </span>
                 </div>
               </div>

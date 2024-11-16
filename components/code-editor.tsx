@@ -235,7 +235,7 @@ const Code = ({
   return (
     <>
       <div className="mt-2">
-        <div className="flex space-x-5 border-b mb-5">
+        <div className="flex space-x-5 border-b border-b-4 mb-5">
           <div className="ml-5">
             {/* Top Bar in the editor */}
             <Select onValueChange={handleLanguageChange}>
@@ -266,7 +266,7 @@ const Code = ({
               </SelectContent>
             </Select>
           </div>
-          <Button className="ml-5 mb-2" onClick={executeCode}>
+          <Button className="ml-5 mb-2 bg-red-600 text-white hover:bg-red-300 hover:text-black" onClick={executeCode}>
             Run
           </Button>
         </div>
