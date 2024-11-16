@@ -1,4 +1,5 @@
-import React from "react";
+"use client";
+import React, { useEffect, useState } from "react";
 import { useTheme } from "next-themes";
 import { Button } from "@/components/ui/button";
 import { Sun, Moon, User, Laptop2 } from "lucide-react";
@@ -11,9 +12,44 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { signOut } from "firebase/auth";
+import { auth } from "@/app/firebase";
+import { onAuthStateChanged } from "firebase/auth";
+import { useRouter } from "next/navigation";
+
+type UserDataType = {
+  name: string | null;
+  email: string | null;
+  displayPicture?: string | null;
+} | null;
 
 const UserOptions = () => {
   const { setTheme } = useTheme();
+  const router = useRouter();
+  const [userData, setUserData] = useState<UserDataType>(null);
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (authUser) => {
+      if (authUser) {
+        setUserData({
+          name: authUser.displayName || null,
+          email: authUser.email || null,
+          displayPicture: authUser.photoURL || null,
+        });
+      } else {
+        setUserData(null);
+      }
+    });
+    return () => {
+      unsubscribe();
+    };
+  }, []);
+  const handleLogout = async () => {
+    try {
+      await signOut(auth);
+      router.push("/");
+    } catch (e) {}
+  };
+
   return (
     <div className="justify-self-end p-0">
       <DropdownMenu>
@@ -53,7 +89,7 @@ const UserOptions = () => {
             </DropdownMenu>
           </DropdownMenuGroup>
           <DropdownMenuSeparator />
-          <DropdownMenuItem className="hover:cursor-pointer">
+          <DropdownMenuItem className="hover:cursor-pointer" onClick={handleLogout}>
             Logout
           </DropdownMenuItem>
         </DropdownMenuContent>

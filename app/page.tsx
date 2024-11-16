@@ -1,5 +1,5 @@
 import { Inter } from "next/font/google";
-
+import { AuthContextProvider } from "./AuthContext";
 import Login from "./login/page";
 
 const inter = Inter({
@@ -9,8 +9,8 @@ const inter = Inter({
 
 export default function Home() {
   return (
-    <main className={`${inter.variable}`}>
+    <AuthContextProvider>
      <Login />
-    </main>
+    </AuthContextProvider>
   );
 }
