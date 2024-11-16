@@ -3,7 +3,6 @@ import * as monaco from "monaco-editor";
 import Editor from "@monaco-editor/react";
 import AIChat from "./ai-chat";
 import { Button } from "./ui/button";
-import { motion, AnimatePresence } from "framer-motion";
 
 import {
   Select,
@@ -70,6 +69,11 @@ const Code = ({
 
   const executeai = async () => {
     setLoading(true);
+    if(apiKey === ""){
+      setOutput("Please enter the API Key");
+      setLoading(false);
+      return;
+    }
     try {
       const response = await fetch("http://localhost:8080/openai", {
         method: "POST",
@@ -98,6 +102,11 @@ const Code = ({
 
   const executegeminiai = async () => {
     setLoading(true);
+    if (apiKey === "") {
+      setOutput("Please enter the API Key");
+      setLoading(false);
+      return;
+    }
     try {
       const response = await fetch("http://localhost:8080/gemini", {
         method: "POST",

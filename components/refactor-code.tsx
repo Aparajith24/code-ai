@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Button } from "./ui/button";
 import {
   Dialog,
@@ -7,9 +7,11 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog";
 import { Loader2 } from "lucide-react";
+import ReactMarkdown from "react-markdown";
+import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
+import { atomDark } from "react-syntax-highlighter/dist/esm/styles/prism";
 
 interface RefactorCodeProps {
   modelOpen: boolean;
@@ -36,6 +38,31 @@ export const RefactorCode = ({
   AImodel,
   executegeminiai,
 }: RefactorCodeProps) => {
+  const renderMarkdownWithHighlighting = (code: string) => (
+    <ReactMarkdown
+      children={code}
+      components={{
+        code({ inline, className, children, ...props }) {
+          const match = /language-(\w+)/.exec(className || "");
+          return !inline && match ? (
+            <SyntaxHighlighter
+              style={atomDark}
+              language={match[1]}
+              PreTag="div"
+              {...props}
+            >
+              {String(children).replace(/\n$/, "")}
+            </SyntaxHighlighter>
+          ) : (
+            <code className={className} {...props}>
+              {children}
+            </code>
+          );
+        },
+      }}
+    />
+  );
+
   return (
     <>
       <Dialog open={modelOpen} onOpenChange={setModelOpen}>
@@ -46,32 +73,32 @@ export const RefactorCode = ({
               Refactor the selected code with AI
             </DialogDescription>
           </DialogHeader>
-          {output.length != 0 && isLoading == false ? (
+          {output.length !== 0 && !isLoading ? (
             <div className="p-5 lg:grid lg:grid-cols-2 lg:space-x-5">
               <div>
                 <p className="text-lg font-bold">Selected Code</p>
                 <div className="max-h-[60vh] overflow-y-auto border p-2 rounded-md">
-                  <pre className="text-sm">{selectedCode}</pre>
+                  {renderMarkdownWithHighlighting(selectedCode)}
                 </div>
               </div>
               <div>
                 <p className="text-lg font-bold">Refactored Code</p>
                 <div className="max-h-[60vh] overflow-y-auto border p-2 rounded-md">
-                  <pre className="text-sm">{output}</pre>
+                  {renderMarkdownWithHighlighting(output)}
                 </div>
               </div>
             </div>
-          ) : isLoading == true ? (
+          ) : isLoading ? (
             <div className="p-5 lg:grid lg:grid-cols-2 lg:space-x-5">
               <div>
                 <p className="text-lg font-bold">Selected Code</p>
                 <div className="max-h-[60vh] overflow-y-auto border p-2 rounded-md">
-                  <pre className="text-sm">{selectedCode}</pre>
+                  {renderMarkdownWithHighlighting(selectedCode)}
                 </div>
               </div>
               <div className="mt-5 flex flex-col items-center justify-center">
                 <p className="text-lg font-bold">Refactoring...</p>
-                <div className="flex items-center justify-end text-center]">
+                <div className="flex items-center justify-end text-center">
                   <Loader2 className="animate-spin h-8 w-8" />
                 </div>
               </div>
@@ -80,12 +107,12 @@ export const RefactorCode = ({
             <div className="p-5">
               <p className="text-lg font-bold">Selected Code</p>
               <div className="max-h-[60vh] overflow-y-auto border p-2 rounded-md">
-                <pre className="text-sm">{selectedCode}</pre>
+                {renderMarkdownWithHighlighting(selectedCode)}
               </div>
             </div>
           )}
           <DialogFooter>
-            {output.length != 0 ? (
+            {output.length !== 0 ? (
               <div className="flex space-x-5">
                 <Button onClick={() => accept(output)} className="bg-green-400">
                   Accept
@@ -98,12 +125,14 @@ export const RefactorCode = ({
               <div className="flex space-x-5">
                 <Button
                   onClick={
-                    AImodel == "gemini-1.5-flash" ? executegeminiai : executeai
+                    AImodel === "gemini-1.5-flash"
+                      ? executegeminiai
+                      : executeai
                   }
                 >
                   Refactor
                 </Button>
-                <Button onClick={() => setModelOpen(false)}>Cancel </Button>
+                <Button onClick={() => setModelOpen(false)}>Cancel</Button>
               </div>
             )}
           </DialogFooter>
