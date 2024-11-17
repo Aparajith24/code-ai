@@ -217,9 +217,9 @@ export default function AIChat({ code, model, apiKey, editorValue, setEditorValu
                 >
                   <ReactMarkdown
                     components={{
-                      code({ node, inline, className, children, ...props }) {
+                      code({ node, className, children,ref, style, ...props }) {
                         const match = /language-(\w+)/.exec(className || "");
-                        return !inline && match ? (
+                        return match ? (
                           <div className="relative">
                             <SyntaxHighlighter
                               style={atomDark}
