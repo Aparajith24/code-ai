@@ -54,7 +54,7 @@ const EditorArea = () => {
   const executeCode = async () => {
     setLoading(true);
     try {
-      const response = await fetch("http://localhost:8080/execute", {
+      const response = await fetch("https://code-ai-backend.onrender.com/execute", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -121,7 +121,7 @@ export default function AIChat({ code, model, apiKey, editorValue, setEditorValu
   };
 
   const executeOpenAI = async (prompt: string) => {
-    const response = await fetch("http://localhost:8080/openaichat", {
+    const response = await fetch("https://code-ai-backend.onrender.com/openaichat", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -145,7 +145,7 @@ export default function AIChat({ code, model, apiKey, editorValue, setEditorValu
   };
 
   const executeGeminiAI = async (prompt: string) => {
-    const response = await fetch("http://localhost:8080/geminichat", {
+    const response = await fetch("https://code-ai-backend.onrender.com/geminichat", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

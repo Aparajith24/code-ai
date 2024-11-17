@@ -75,7 +75,7 @@ const Code = ({
       return;
     }
     try {
-      const response = await fetch("http://localhost:8080/openai", {
+      const response = await fetch("https://code-ai-backend.onrender.com/openai", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -108,7 +108,7 @@ const Code = ({
       return;
     }
     try {
-      const response = await fetch("http://localhost:8080/gemini", {
+      const response = await fetch("https://code-ai-backend.onrender.com/gemini", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
