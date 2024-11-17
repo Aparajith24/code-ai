@@ -147,124 +147,71 @@ const EditorArea = () => {
   }
 
   return (
-    <>
-      {/*UI for the top bar of the editor */}
-      <div className="lg:mb-[5%] md:mb-[10%]">
-        <div className="fixed top-0 left-0 right-0 z-10 border-b pb-2">
-          <div className="grid grid-cols-2 pt-3 mx-auto pl-8 pr-8">
-            <div className="flex space-x-5">
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button
-                    variant={"outline"}
-                    className="rounded-[12px] border-grey-400 flex items-center text-white bg-blue-700"
-                  >
-                    <div className="flex space-x-2 items-center">
-                      <div className="mx-auto font-bold">File</div>
-                      <ChevronDown size={20} className="text-slate-400" />
-                    </div>
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent className="ml-8 p-4">
-                  <label
-                    htmlFor="file-input"
-                    className="flex items-center cursor-pointer text-sm hover:cursor-pointer mb-2 "
-                  >
-                    <Upload className="h-4 w-4 mr-2" /> Upload Code
-                    <input
-                      type="file"
-                      id="file-input"
-                      onChange={handleFileChange}
-                      className="hidden"
-                    />
-                  </label>
-                  <DropdownMenuSeparator />
-                  <label
-                    htmlFor="save"
-                    className="flex items-center cursor-pointer text-sm hover:cursor-pointer"
-                    onClick={handleCodeDownload}
-                  >
-                    <Save className="h-4 w-4 mr-2" /> Download Code
-                  </label>
-                </DropdownMenuContent>
-              </DropdownMenu>
-              <div>
-                <Dialog>
-                  <DialogTrigger asChild>
-                    <Button
-                      className="rounded-[12px] flex items-center font-bold"
-                      variant={"outline"}
-                    >
-                      <div className="flex space-x-2 items-center">
-                      <Bot size={20} className="text-slate-400" />
-                      <div className="mx-auto">{model}</div>
-                      </div>
-                    </Button>
-                  </DialogTrigger>
-                  <DialogContent className="w-[30vw]">
-                    <DialogHeader>
-                      <DialogTitle>
-                        Please Select Your Model and Enter your API Key
-                      </DialogTitle>
-                    </DialogHeader>
-                    <Select onValueChange={handleModelChange}>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select Model" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="gpt-3.5-turbo">
-                          OpenAI GPT-3.5 Turbo
-                        </SelectItem>
-                        <SelectItem value="gpt-4o">OpenAI GPT-4o</SelectItem>
-                        <SelectItem value="gpt-4o-mini">
-                          OpenAI GPT-4o Mini
-                        </SelectItem>
-                        <SelectItem value="gpt-4-turbo">
-                          OpenAI GPT-4 Turbo
-                        </SelectItem>
-                        <SelectItem value="gpt-4">OpenAI GPT-4</SelectItem>
-                        <SelectItem value="gemini-1.5-flash">
-                          Gemini-1.5-Flash
-                        </SelectItem>
-                        <SelectItem value="Claude 3.5 Sonnet">
-                          Claude 3.5 Sonnet
-                        </SelectItem>
-                      </SelectContent>
-                    </Select>
-                    <Input
-                      aria-label="API Key"
-                      placeholder="API Key"
-                      className="w-full"
-                      onChange={(e) => setApiKey(e.target.value)}
-                    />
-                    <DialogFooter>
-                      <DialogClose asChild>
-                        <Button
-                          onClick={submitModelandApi}
-                          className="rounded-[12px]"
-                        >
-                          Submit
-                        </Button>
-                      </DialogClose>
-                    </DialogFooter>
-                  </DialogContent>
-                </Dialog>
-              </div>
-            </div>
-            <UserOptions />
-          </div>
+    <div className="flex flex-col h-screen">
+      <header className="border-b p-4 flex flex-wrap items-center justify-between gap-4">
+        <div className="flex flex-wrap items-center gap-4">
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="outline" className="rounded-md border-gray-400 bg-blue-700 text-white">
+                <span className="font-bold mr-2">File</span>
+                <ChevronDown size={20} className="text-slate-400" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className="p-4">
+              <label htmlFor="file-input" className="flex items-center cursor-pointer text-sm mb-2">
+                <Upload className="h-4 w-4 mr-2" /> Upload Code
+                <input type="file" id="file-input" onChange={handleFileChange} className="hidden" />
+              </label>
+              <DropdownMenuSeparator />
+              <button onClick={handleCodeDownload} className="flex items-center cursor-pointer text-sm">
+                <Save className="h-4 w-4 mr-2" /> Download Code
+              </button>
+            </DropdownMenuContent>
+          </DropdownMenu>
+          <Dialog>
+            <DialogTrigger asChild>
+              <Button variant="outline" className="rounded-md">
+                <Bot size={20} className="text-slate-400 mr-2" />
+                <span className="font-bold">{model}</span>
+              </Button>
+            </DialogTrigger>
+            <DialogContent className="sm:max-w-[425px]">
+              <DialogHeader>
+                <DialogTitle>Select Model and Enter API Key</DialogTitle>
+              </DialogHeader>
+              <Select onValueChange={handleModelChange}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Select Model" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="gpt-3.5-turbo">OpenAI GPT-3.5 Turbo</SelectItem>
+                  <SelectItem value="gpt-4">OpenAI GPT-4</SelectItem>
+                  <SelectItem value="gemini-1.5-flash">Gemini-1.5-Flash</SelectItem>
+                  <SelectItem value="claude-3.5-sonnet">Claude 3.5 Sonnet</SelectItem>
+                </SelectContent>
+              </Select>
+              <Input
+                aria-label="API Key"
+                placeholder="API Key"
+                className="w-full"
+                onChange={(e) => setApiKey(e.target.value)}
+              />
+              <DialogFooter>
+                <DialogClose asChild>
+                  <Button onClick={submitModelandApi} className="rounded-md">Submit</Button>
+                </DialogClose>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
         </div>
-      </div>
-      {/*UI for Code Editor and the Output place */}
-      <div className="ml-[1%] mr-[1%]">
-        <ResizablePanelGroup
-          direction="horizontal"
-          className="min-h-[78vh]  rounded-lg border border-4 md:min-w-[450px]"
-        >
-          <ResizablePanel defaultSize={70}>
+        <UserOptions />
+      </header>
+      <main className="flex-grow overflow-hidden">
+        <ResizablePanelGroup direction="vertical" className="h-full">
+          <ResizablePanel defaultSize={70} minSize={30}>
             <Code
               editorValue={editorValue}
-              setEditorValue={handleSetEditorValue}
+              setEditorValue={setEditorValue}
               language={language}
               setLanguage={setLanguage}
               executeCode={executeCode}
@@ -272,28 +219,21 @@ const EditorArea = () => {
               apiKey={apiKey}
             />
           </ResizablePanel>
-          <ResizableHandle className="border-2"/>
-          <ResizablePanel defaultSize={30}>
-            <div className="mt-2">
-              <div className="flex space-x-5 border-b-4 mb-5">
-                <h1 className="ml-5 mb-5 text-xl font-bold">Output</h1>
-              </div>
+          <ResizableHandle />
+          <ResizablePanel defaultSize={30} minSize={20}>
+            <div className="h-full overflow-auto p-4">
+              <h2 className="text-xl font-bold mb-4">Output</h2>
               {loading ? (
-                <div className="ml-5">
-                  <p>Executing...</p>
-                </div>
+                <p>Executing...</p>
               ) : (
-                <div className="ml-5">
-                  <p>{output}</p>
-                </div>
+                <pre className="whitespace-pre-wrap">{output}</pre>
               )}
             </div>
           </ResizablePanel>
         </ResizablePanelGroup>
-        
-      </div>
-    </>
-  );
-};
+      </main>
+    </div>
+  )
+}
 
 export default EditorArea;
