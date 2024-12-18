@@ -76,7 +76,6 @@ export default function AIChat({ code, model, apiKey, editorValue, setEditorValu
 
     const handleSlashCommands = (input: string): string | false => {
       const command = input.trim().toLowerCase();
-    
       switch (command) {
         case "/code":
           return `You’re a seasoned software developer with over 15 years of experience in multiple programming languages. You have a knack for breaking down complex code into understandable features, syntax, and practical applications. Your ability to simplify technical concepts makes you an invaluable resource for both novice and experienced programmers alike.\n\nYour task is to analyze and explain the following code snippet. Here is the code:\n\n${editorValue}\n\nPlease detail the main features of the code, explain its syntax, and describe potential use cases for this code in real-world applications. Keep in mind the audience may have varying levels of programming knowledge, so ensure your explanation is clear and accessible.`;
